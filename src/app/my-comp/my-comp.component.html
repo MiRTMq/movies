@@ -1,0 +1,40 @@
+<h1 class="text-light bg-grey"
+style="cursor: default;" 
+(click)="isVisible=!isVisible" 
+(mouseenter)="isHovered=true" 
+(mouseleave)="isHovered=false"
+[ngClass]="{'bg-primary-subtle':isHovered }">
+
+    Movies {{H1title}}
+</h1>
+<p class="mt-3 text-light"  *ngIf="isVisible; else welcome">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Obcaecati in vitae consequatur harum nesciunt saepe pariatur fuga praesentium quidem quisquam suscipit quia, culpa accusamus, dolores soluta odio quibusdam doloremque doloribus?</p>
+
+<ul class="list-group mt-3" *ngIf="isVisible">
+    <li 
+    class="list-group-item bg-dark text-light"
+    (click)="chooseGanre(item)"
+    *ngFor="let item of movieGanres" 
+    style="cursor: default;">
+        {{item}}
+    </li>
+    <div class="alert alert-dark mt-3" > 
+            Chosen genre: {{selectedGanre}}
+    </div>
+</ul>
+
+<ng-container *ngFor="let movie of movies">
+    <div *ngIf="isVisible" [ngSwitch]="movie.ganre">
+        <div *ngSwitchCase="selectedGanre" class="card mt-3 bg-dark text-light">
+            <div class="card-body">
+                <a class="card-title" href="blank" target="_blank">{{ movie.title }}</a>
+                <p class="card-text">{{ movie.description }}</p>
+                <div [ngStyle]="{color:movie.rating < 4 ? 'red': movie.rating >= 4 && movie.rating <=7 ? 'yellow':'green'}"> {{movie.rating}} </div>
+            </div>
+        </div>
+    </div>
+ </ng-container>
+
+<ng-template #welcome class="position-relative">
+    <div class="text-light card mt-2 position-absolute top-50 start-50 translate-middle" >Hello this is a site about movies!</div>
+    <div class="text-light card mt-2 position-absolute  top-0 end-0"> Today is the {{currentDate|date: 'dd of MMMM YYYY'}}</div>
+</ng-template>
